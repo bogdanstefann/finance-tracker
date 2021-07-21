@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   def my_portfolio
     @user = current_user
     @tracked_stocks = current_user.stocks
+    UpdateStockJob.set(wait: 1.minute).perform_later(@tracked_stocks.to_a)
   end
 
   def my_friends
